@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "valoroster"
+name = "valcomps"
 version = "0.1.0"
-description = "Team composition generator for Valorant using Liquipedia's API."
+description = ""
 authors = ["Bryan Yao <bryao@seas.upenn.edu>"]
 
 [tool.poetry.dependencies]

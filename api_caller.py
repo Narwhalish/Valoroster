@@ -15,6 +15,3 @@ class APICaller:
         self.response = requests.get(
             self.BASE_URL, params=self.BASE_PARAMS | {"page": page_name}
         )
-
-    def get_json(self):
-        return self.response.json()

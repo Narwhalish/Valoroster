@@ -1,7 +1,18 @@
-import api_caller
 import json
 
-if __name__ == "__main__":
-    foo = api_caller.APICaller()
+from api_caller import APICaller
+from data_crawler import Scraper
 
-    foo.print_response()
+PAGE_NAME = "Fight_Club"
+
+if __name__ == "__main__":
+    caller = APICaller()
+
+    caller.get_page(PAGE_NAME)
+    body = caller.get_json()["parse"]["text"]["*"]
+
+    scraper = Scraper(body)
+
+    with open("temp.html", "w") as f:
+        for matchup in scraper.get_matchups():
+            f.write(str(matchup) + "\n")

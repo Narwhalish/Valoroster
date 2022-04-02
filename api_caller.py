@@ -1,5 +1,4 @@
 import requests
-import json
 
 
 class APICaller:
@@ -17,5 +16,5 @@ class APICaller:
             self.BASE_URL, params=self.BASE_PARAMS | {"page": page_name}
         )
 
-    def print_response(self):
-        print(self.response.json())
+    def get_json(self):
+        return self.response.json()

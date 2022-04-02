@@ -2,6 +2,7 @@ from api_caller import APICaller
 from tourny_scraper import Scraper
 
 PAGE_NAME = "Fight_Club"
+# PAGE_NAME = "The_Esports_Club/Gauntlet/Season_4"
 
 if __name__ == "__main__":
     # caller = APICaller()
@@ -9,8 +10,8 @@ if __name__ == "__main__":
     # caller.get_page(PAGE_NAME)
     # body = caller.response.json()["parse"]["text"]["*"]
 
-    # with open("temp2.json", "w") as f:
-    #     f.write(caller.response)
+    # with open("test_io/test_input.html", "w") as f:
+    # f.write(body)
 
     with open("test_io/test_input.html", "r") as f:
         body = f.read()

@@ -12,51 +12,56 @@ class Scraper:
         self._scrape_games()
 
     def _scrape_games(self):
-        bracket_html = self.soup.find("div", {"class": "bracket-scroller"})
-        if bracket_html is None:
-            raise Exception("No bracket found")
+        brackets_html = self.soup("div", {"class": "bracket-scroller"})
+        if not brackets_html:
+            raise Exception("No brackets found")
 
-        matchups_html = bracket_html(
-            "div", {"class": "bracket-popup-wrapper bracket-popup-team"}
-        )
-
-        for matchup_html in matchups_html:
-            teams = tuple(
-                team_html["data-highlightingclass"]
-                for team_html in matchup_html(
-                    "span", {"class": "team-template-team-short"}
-                )
+        for bracket_html in brackets_html:
+            matchups_html = bracket_html(
+                "div", {"class": "bracket-popup-wrapper bracket-popup-team"}
             )
 
-            for game_html in matchup_html(
-                "div", {"class": "bracket-popup-body-match-container"}
-            ):
-
-                game = Game()
-
-                game.teams = teams
-
-                game.map = (
-                    game_html.find("div", {"class": "bracket-popup-body-match-map"})
-                    .a["title"]
-                    .upper()
+            for matchup_html in matchups_html:
+                teams = tuple(
+                    team_html["data-highlightingclass"]
+                    for team_html in matchup_html(
+                        "span", {"class": "team-template-team-short"}
+                    )
                 )
 
-                game.agents = tuple(
-                    tuple(
-                        agent_html["title"]
-                        .translate(str.maketrans("", "", string.punctuation))
+                for game_html in matchup_html(
+                    "div", {"class": "bracket-popup-body-match-container"}
+                ):
+                    if game_html.find(
+                        "div", {"class": "bracket-popup-body-match-mapskip"}
+                    ):
+                        continue
+
+                    game = Game()
+
+                    game.teams = teams
+
+                    game.map = (
+                        game_html.find("div", {"class": "bracket-popup-body-match-map"})
+                        .a["title"]
                         .upper()
-                        for agent_html in agents_html.children
                     )
-                    for agents_html in game_html(
-                        "div",
-                        {
-                            "style": re.compile(
-                                r"float:(?:left|right);margin-(?:left|right):10px"
-                            )
-                        },
-                    )
-                )
 
-                self.games.append(game)
+                    game.agents = tuple(
+                        tuple(
+                            agent_html["title"]
+                            .translate(str.maketrans("", "", string.punctuation))
+                            .upper()
+                            for agent_html in agents_html.children
+                        )
+                        for agents_html in game_html(
+                            "div",
+                            {
+                                "style": re.compile(
+                                    r"float:(?:left|right);margin-(?:left|right):10px"
+                                )
+                            },
+                        )
+                    )
+
+                    self.games.append(game)

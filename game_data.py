@@ -49,4 +49,14 @@ class Game:
         self._winner = ""
 
     def __str__(self):
-        return f"Game(\n\tteams={self.teams},\n\tmap={self.map.name},\n\tagents={tuple(tuple(agent.name for agent in agents) for agents in self.agents)}\n)"
+        return str(
+            {
+                "Game": {
+                    "teams": self.teams,
+                    "map": self.map.name,
+                    "agents": tuple(
+                        tuple(agent.name for agent in agents) for agents in self.agents
+                    ),
+                }
+            }
+        )

@@ -2,6 +2,8 @@ from enum import Enum
 
 
 class Map(Enum):
+    """This class represents the maps in Valorant."""
+
     SPLIT = 1
     HAVEN = 2
     BIND = 3
@@ -13,6 +15,8 @@ class Map(Enum):
 
 
 class Agent(Enum):
+    """This class represents the agents in Valorant."""
+
     BRIMSTONE = 1
     VIPER = 2
     OMEN = 3

@@ -6,15 +6,34 @@ from game_data import Game
 
 
 class Scraper:
+    """This class scrapes and organizes the match data from the body HTML of a Liquipedia page."""
+
     def __init__(self, body):
-        self.soup = BeautifulSoup(body, "html.parser")
-        self.games = []
-        self._scrape_games()
+        """Initialize the Scraper object. Create soup object from body HTML.
+
+        Args:
+            body (str): The body HTML of a Liquipedia page.
+
+        Raises:
+            ValueError: body is None. Scraper requires an HTML input.
+        """
+        if body is None:
+            raise ValueError("body cannot be None")
+        else:
+            self.soup = BeautifulSoup(body, "html.parser")
+            self.games = []
+            self._scrape_games()
 
     def _scrape_games(self):
+        """Scrape game data and organize into individual Game objects.
+        Break body HTML into brackets, matchups, and games/teams, respectively.
+
+        Raises:
+            ValueError: brackets_html is None. bracket-scroller element could not be found in body.
+        """
         brackets_html = self.soup("div", {"class": "bracket-scroller"})
         if not brackets_html:
-            raise Exception("No brackets found")
+            raise ValueError("brackets_html cannot be None")
 
         for bracket_html in brackets_html:
             matchups_html = bracket_html(

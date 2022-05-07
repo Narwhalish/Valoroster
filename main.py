@@ -10,13 +10,13 @@ if __name__ == "__main__":
     # caller.get_page(PAGE_NAME)
     # body = caller.response.json()["parse"]["text"]["*"]
 
-    # with open("test_io/test_input.html", "w") as f:
+    # with open("test_input.html", "w") as f:
     #     f.write(body)
 
-    with open("test_io/test_input.html", "r") as f:
+    with open("test_input.html", "r") as f:
         body = f.read()
 
     scraper = Scraper(body)
-    with open("test_io/test_output.txt", "w") as f:
+    with open("test_output.txt", "w") as f:
         for game in scraper.games:
             f.write(str(game) + "\n")
